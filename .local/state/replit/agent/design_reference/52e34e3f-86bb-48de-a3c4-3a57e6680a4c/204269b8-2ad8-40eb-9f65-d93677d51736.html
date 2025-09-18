@@ -1,0 +1,443 @@
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT-tjänster Kostnadskalkylator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8'
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- @COMPONENT: Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-server text-blue-600 text-2xl mr-3"></i>
+                    <h1 class="text-xl font-semibold text-gray-900">IT-tjänster Kostnadskalkylator</h1>
+                </div>
+                <button id="resetBtn" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors">
+                    <i class="fas fa-refresh mr-2"></i>Återställ
+                </button>
+            </div>
+        </div>
+    </header>
+    <!-- @END_COMPONENT: Header -->
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- @COMPONENT: ServicesConfiguration -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- @COMPONENT: PhysicalServers -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-center mb-6">
+                        <i class="fas fa-server text-blue-600 text-lg mr-3"></i>
+                        <h2 class="text-lg font-semibold text-gray-900">Fysiska servrar</h2>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Serverplacering</label>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm text-gray-700">2 280 kr/U och år</span>
+                                    <input type="number" class="w-20 px-2 py-1 border border-gray-300 rounded text-sm" min="0" placeholder="0" data-price="2280" data-category="physical" data-service="placement">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Övervakning & Drift</label>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm text-gray-700">Övervakning licens + infrastruktur<br><span class="text-xs text-gray-500">1 000 kr/server och år</span></span>
+                                    <input type="number" class="w-20 px-2 py-1 border border-gray-300 rounded text-sm" min="0" placeholder="0" data-price="1000" data-category="physical" data-service="monitoring-license">
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm text-gray-700">Övervakning inkl. åtgärd<br><span class="text-xs text-gray-500">6 600 kr/server och år</span></span>
+                                    <input type="number" class="w-20 px-2 py-1 border border-gray-300 rounded text-sm" min="0" placeholder="0" data-price="6600" data-category="physical" data-service="monitoring-action">
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm text-gray-700">Drifttjänst rackserver<br><span class="text-xs text-gray-500">19 800 kr/server och år</span></span>
+                                    <input type="number" class="w-20 px-2 py-1 border border-gray-300 rounded text-sm" min="0" placeholder="0" data-price="19800" data-category="physical" data-service="rack-service">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- @END_COMPONENT: PhysicalServers -->
+
+                <!-- @COMPONENT: VirtualServers -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-center mb-6">
+                        <i class="fas fa-cloud text-blue-600 text-lg mr-3"></i>
+                        <h2 class="text-lg font-semibold text-gray-900">Virtuella servrar</h2>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Basserver</label>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <span class="text-sm text-gray-700">Server med drift och underhåll<br><span class="text-xs text-gray-500">(1 VCPU, 2 GB RAM, 60 GB lagring)<br>9 650 kr/server/år</span></span>
+                                <input type="number" class="w-20 px-2 py-1 border border-gray-300 rounded text-sm" min="0" placeholder="0" data-price="9650" data-category="virtual" data-service="base-server">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Tillägg</label>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm text-gray-700">Extra processor (VCPU)<br><span class="text-xs text-gray-500">500 kr/st./år</span></span>
+                                    <input type="number" class="w-20 px-2 py-1 border border-gray-300 rounded text-sm" min="0" placeholder="0" data-price="500" data-category="virtual" data-service="extra-cpu">
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm text-gray-700">Extra ramminne per GB<br><span class="text-xs text-gray-500">325 kr/GB/år</span></span>
+                                    <input type="number" class="w-20 px-2 py-1 border border-gray-300 rounded text-sm" min="0" placeholder="0" data-price="325" data-category="virtual" data-service="extra-ram">
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm text-gray-700">Extra serverlagring per GB<br><span class="text-xs text-gray-500">125 kr/GB/år</span></span>
+                                    <input type="number" class="w-20 px-2 py-1 border border-gray-300 rounded text-sm" min="0" placeholder="0" data-price="125" data-category="virtual" data-service="extra-storage">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- @END_COMPONENT: VirtualServers -->
+
+                <!-- @COMPONENT: Storage -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-center mb-6">
+                        <i class="fas fa-database text-blue-600 text-lg mr-3"></i>
+                        <h2 class="text-lg font-semibold text-gray-900">Lagring</h2>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Fillagring</label>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm text-gray-700">Arbetsmaterial (hemkatalog)<br><span class="text-xs text-gray-500">33 kr/GB och år</span></span>
+                                    <input type="number" class="w-20 px-2 py-1 border border-gray-300 rounded text-sm" min="0" placeholder="0" data-price="33" data-category="storage" data-service="work-files">
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm text-gray-700">Studentmaterial<br><span class="text-xs text-gray-500">24 kr/GB och år</span></span>
+                                    <input type="number" class="w-20 px-2 py-1 border border-gray-300 rounded text-sm" min="0" placeholder="0" data-price="24" data-category="storage" data-service="student-files">
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm text-gray-700">Långtidslagring<br><span class="text-xs text-gray-500">12 kr/GB och år</span></span>
+                                    <input type="number" class="w-20 px-2 py-1 border border-gray-300 rounded text-sm" min="0" placeholder="0" data-price="12" data-category="storage" data-service="longterm">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Backup & Backup</label>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm text-gray-700">Backup på band<br><span class="text-xs text-gray-500">3,60 kr/GB och år</span></span>
+                                    <input type="number" class="w-20 px-2 py-1 border border-gray-300 rounded text-sm" min="0" placeholder="0" data-price="3.6" data-category="storage" data-service="tape-backup">
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                                    <span class="text-sm text-gray-700">Volymlagring<br><span class="text-xs text-yellow-600">Enligt offert</span></span>
+                                    <span class="text-xs text-yellow-600 font-medium">Kontakta IT-avd.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- @END_COMPONENT: Storage -->
+
+                <!-- @COMPONENT: DatabaseHosting -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-center mb-6">
+                        <i class="fas fa-server text-blue-600 text-lg mr-3"></i>
+                        <h2 class="text-lg font-semibold text-gray-900">Databashotell</h2>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Databastyper</label>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm text-gray-700">MSSQL inkl. 1 GB lagring<br><span class="text-xs text-gray-500">6 000 kr/databas och år</span></span>
+                                    <input type="number" class="w-20 px-2 py-1 border border-gray-300 rounded text-sm" min="0" placeholder="0" data-price="6000" data-category="database" data-service="mssql">
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm text-gray-700">PostgreSQL inkl. 1 GB lagring<br><span class="text-xs text-gray-500">4 000 kr/databas och år</span></span>
+                                    <input type="number" class="w-20 px-2 py-1 border border-gray-300 rounded text-sm" min="0" placeholder="0" data-price="4000" data-category="database" data-service="postgresql">
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm text-gray-700">MongoDB inkl. 1 GB lagring<br><span class="text-xs text-gray-500">4 000 kr/databas och år</span></span>
+                                    <input type="number" class="w-20 px-2 py-1 border border-gray-300 rounded text-sm" min="0" placeholder="0" data-price="4000" data-category="database" data-service="mongodb">
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm text-gray-700">MariaDB<br><span class="text-xs text-gray-500">4 000 kr/databas och år</span></span>
+                                    <input type="number" class="w-20 px-2 py-1 border border-gray-300 rounded text-sm" min="0" placeholder="0" data-price="4000" data-category="database" data-service="mariadb">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Extra lagring</label>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <span class="text-sm text-gray-700">Lagring utöver 1 GB<br><span class="text-xs text-gray-500">300 kr/GB och år</span></span>
+                                <input type="number" class="w-20 px-2 py-1 border border-gray-300 rounded text-sm" min="0" placeholder="0" data-price="300" data-category="database" data-service="extra-storage">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- @END_COMPONENT: DatabaseHosting -->
+
+                <!-- @COMPONENT: WebHosting -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-center mb-6">
+                        <i class="fas fa-globe text-blue-600 text-lg mr-3"></i>
+                        <h2 class="text-lg font-semibold text-gray-900">Webbhotell</h2>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Webbserver</label>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <span class="text-sm text-gray-700">IIS & Apache < 1GB<br><span class="text-xs text-gray-500">3 600 kr/sajt och år</span></span>
+                                <input type="number" class="w-20 px-2 py-1 border border-gray-300 rounded text-sm" min="0" placeholder="0" data-price="3600" data-category="web" data-service="web-hosting">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">SharePoint</label>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <span class="text-sm text-gray-700">Lagring > 10GB<br><span class="text-xs text-gray-500">300 kr/GB och år</span></span>
+                                <input type="number" class="w-20 px-2 py-1 border border-gray-300 rounded text-sm" min="0" placeholder="0" data-price="300" data-category="web" data-service="sharepoint">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- @END_COMPONENT: WebHosting -->
+
+                <!-- @COMPONENT: BackupServices -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-center mb-6">
+                        <i class="fas fa-shield-alt text-blue-600 text-lg mr-3"></i>
+                        <h2 class="text-lg font-semibold text-gray-900">Beredskap</h2>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Beredskapssystem</label>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm text-gray-700">Beredskap 1:a systemet<br><span class="text-xs text-gray-500">30 000 kr/system och år</span></span>
+                                    <input type="number" class="w-20 px-2 py-1 border border-gray-300 rounded text-sm" min="0" max="1" placeholder="0" data-price="30000" data-category="backup" data-service="first-system">
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-sm text-gray-700">Ytterligare system<br><span class="text-xs text-gray-500">10 000 kr/system och år</span></span>
+                                    <input type="number" class="w-20 px-2 py-1 border border-gray-300 rounded text-sm" min="0" placeholder="0" data-price="10000" data-category="backup" data-service="additional-systems">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- @END_COMPONENT: BackupServices -->
+
+            </div>
+            <!-- @END_COMPONENT: ServicesConfiguration -->
+
+            <!-- @COMPONENT: CostSummary -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-6 flex items-center">
+                        <i class="fas fa-calculator text-blue-600 mr-3"></i>
+                        Kostnadssammanfattning
+                    </h3>
+                    
+                    <!-- @STATE: categoryTotals:object = {} -->
+                    <div id="costBreakdown" class="space-y-4 mb-6">
+                        <div class="cost-category hidden" data-category="physical">
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                                <span class="font-medium text-gray-700">Fysiska servrar</span>
+                                <span class="font-semibold text-gray-900 category-total">0 kr</span>
+                            </div>
+                        </div>
+                        <div class="cost-category hidden" data-category="virtual">
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                                <span class="font-medium text-gray-700">Virtuella servrar</span>
+                                <span class="font-semibold text-gray-900 category-total">0 kr</span>
+                            </div>
+                        </div>
+                        <div class="cost-category hidden" data-category="storage">
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                                <span class="font-medium text-gray-700">Lagring</span>
+                                <span class="font-semibold text-gray-900 category-total">0 kr</span>
+                            </div>
+                        </div>
+                        <div class="cost-category hidden" data-category="database">
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                                <span class="font-medium text-gray-700">Databashotell</span>
+                                <span class="font-semibold text-gray-900 category-total">0 kr</span>
+                            </div>
+                        </div>
+                        <div class="cost-category hidden" data-category="web">
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                                <span class="font-medium text-gray-700">Webbhotell</span>
+                                <span class="font-semibinent text-gray-900 category-total">0 kr</span>
+                            </div>
+                        </div>
+                        <div class="cost-category hidden" data-category="backup">
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                                <span class="font-medium text-gray-700">Beredskap</span>
+                                <span class="font-semibold text-gray-900 category-total">0 kr</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-gray-200 pt-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-semibold text-gray-900">Total årskostnad</span>
+                            <span id="totalCost" class="text-2xl font-bold text-blue-600">0 kr</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2">Alla priser exklusive moms</p>
+                    </div>
+                    
+                    <div class="mt-6 pt-6 border-t border-gray-200">
+                        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors">
+                            <i class="fas fa-download mr-2"></i>
+                            Exportera kalkyl
+                        </button>
+                        <button class="w-full mt-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-3 px-4 rounded-lg transition-colors">
+                            <i class="fas fa-share mr-2"></i>
+                            Dela kalkyl
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- @END_COMPONENT: CostSummary -->
+            
+        </div>
+    </main>
+
+    <script>
+        // TODO: Implement proper state management and API integration for production use
+        (function() {
+            let categoryTotals = {};
+            let grandTotal = 0;
+
+            function formatCurrency(amount) {
+                return new Intl.NumberFormat('sv-SE', {
+                    style: 'currency',
+                    currency: 'SEK',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                }).format(amount).replace('SEK', 'kr');
+            }
+
+            function calculateCosts() {
+                categoryTotals = {};
+                grandTotal = 0;
+
+                // Get all input fields with pricing data
+                const inputs = document.querySelectorAll('input[data-price]');
+                
+                inputs.forEach(input => {
+                    const quantity = parseFloat(input.value) || 0;
+                    const price = parseFloat(input.dataset.price);
+                    const category = input.dataset.category;
+                    
+                    if (quantity > 0 && price > 0) {
+                        const cost = quantity * price;
+                        
+                        if (!categoryTotals[category]) {
+                            categoryTotals[category] = 0;
+                        }
+                        categoryTotals[category] += cost;
+                        grandTotal += cost;
+                    }
+                });
+
+                updateDisplay();
+            }
+
+            function updateDisplay() {
+                // Update category totals
+                Object.keys(categoryTotals).forEach(category => {
+                    const categoryElement = document.querySelector(`[data-category="${category}"]`);
+                    if (categoryElement) {
+                        categoryElement.classList.remove('hidden');
+                        const totalElement = categoryElement.querySelector('.category-total');
+                        if (totalElement) {
+                            totalElement.textContent = formatCurrency(categoryTotals[category]);
+                        }
+                    }
+                });
+
+                // Hide categories with zero cost
+                document.querySelectorAll('.cost-category').forEach(element => {
+                    const category = element.dataset.category;
+                    if (!categoryTotals[category] || categoryTotals[category] === 0) {
+                        element.classList.add('hidden');
+                    }
+                });
+
+                // Update grand total
+                document.getElementById('totalCost').textContent = formatCurrency(grandTotal);
+            }
+
+            function resetCalculator() {
+                // Clear all inputs
+                document.querySelectorAll('input[data-price]').forEach(input => {
+                    input.value = '';
+                });
+                
+                // Clear totals
+                categoryTotals = {};
+                grandTotal = 0;
+                
+                // Hide all category displays
+                document.querySelectorAll('.cost-category').forEach(element => {
+                    element.classList.add('hidden');
+                });
+                
+                // Reset grand total
+                document.getElementById('totalCost').textContent = '0 kr';
+            }
+
+            // Event listeners
+            document.addEventListener('input', function(e) {
+                if (e.target.matches('input[data-price]')) {
+                    // Validate input (positive numbers only)
+                    if (e.target.value < 0) {
+                        e.target.value = 0;
+                    }
+                    calculateCosts();
+                }
+            });
+
+            document.getElementById('resetBtn').addEventListener('click', resetCalculator);
+
+            // Initialize
+            calculateCosts();
+        })();
+    </script>
+</body>
+</html>
