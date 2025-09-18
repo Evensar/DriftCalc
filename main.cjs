@@ -9,7 +9,8 @@ function createWindow () {
     autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
-    }
+    },
+    icon: path.join(__dirname, "assets/icon.ico"),
   });
 
   // Ladda din byggda index.html (från dist-mappen)

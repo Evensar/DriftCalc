@@ -23,10 +23,12 @@
       "dist/",
       "dist/public/",
       "main.cjs",
-      "package.json"
+      "package.json",
+      "assets/"
     ],
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "icon": "assets/logo.ico"
     }
   },
   "dependencies": {
