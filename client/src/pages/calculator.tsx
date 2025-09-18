@@ -12,7 +12,7 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@radix-ui/react-accordion";
-import { ChevronDown } from "lucide-react"; // snygg pilikon
+import { ChevronDown } from "lucide-react";
 
 const STORAGE_KEY = "cost-estimator-prices-v2";
 
@@ -132,7 +132,7 @@ function Calculator() {
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-xl font-bold">Kostnadskalkylator</h1>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <Button onClick={() => setIsEditing(!isEditing)}>
             {isEditing ? "Spara priser" : "Redigera priser"}
           </Button>
@@ -163,69 +163,123 @@ function Calculator() {
               </div>
             </AccordionTrigger>
             <AccordionContent className="mt-2">
-              <table className="w-full table-fixed border mb-4">
-                <colgroup>
-                  <col className="w-1/2" />
-                  <col className="w-1/6" />
-                  <col className="w-1/6" />
-                  <col className="w-1/6" />
-                </colgroup>
-                <thead>
-                  <tr className="bg-gray-50">
-                    <th className="p-2 text-left">Tjänst</th>
-                    <th className="p-2 text-left">Pris</th>
-                    <th className="p-2 text-left">Antal</th>
-                    <th className="p-2 text-left">Summa</th>
-                  </tr>
-                </thead>
-<tbody>
-  {items.map((s) => {
-    const price = prices[s.id] ?? s.price;
-    const qty = quantities[s.id] || 0;
-    return (
-      <tr key={s.id} className="border-t">
-        <td className="p-2">{s.name}</td>
-        {/* Visa inputfält när man redigerar */}
-        <td className="p-2">
-          {isEditing ? (
-            <input
-              type="number"
-              className="border rounded px-2 py-1 w-24"
-              value={price}
-              onChange={(e) =>
-                handlePriceChange(s.id, Number(e.target.value))
-              }
-            />
-          ) : (
-            <span>{price} kr</span>
-          )}
-        </td>
+              {/* Desktop table */}
+              <div className="hidden md:block">
+                <table className="w-full table-fixed border mb-4">
+                  <colgroup>
+                    <col className="w-1/2" />
+                    <col className="w-1/6" />
+                    <col className="w-1/6" />
+                    <col className="w-1/6" />
+                  </colgroup>
+                  <thead>
+                    <tr className="bg-gray-50">
+                      <th className="p-2 text-left">Tjänst</th>
+                      <th className="p-2 text-left">Pris</th>
+                      <th className="p-2 text-left">Antal</th>
+                      <th className="p-2 text-left">Summa</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {items.map((s) => {
+                      const price = prices[s.id] ?? s.price;
+                      const qty = quantities[s.id] || 0;
+                      return (
+                        <tr key={s.id} className="border-t">
+                          <td className="p-2">{s.name}</td>
+                          <td className="p-2">
+                            {isEditing ? (
+                              <input
+                                type="number"
+                                className="border rounded px-2 py-1 w-24"
+                                value={price}
+                                onChange={(e) =>
+                                  handlePriceChange(
+                                    s.id,
+                                    Number(e.target.value)
+                                  )
+                                }
+                              />
+                            ) : (
+                              <span>{price} kr</span>
+                            )}
+                          </td>
+                          <td className="p-2">
+                            <input
+                              type="number"
+                              className="border rounded px-2 py-1 w-20"
+                              value={qty}
+                              min={0}
+                              max={s.maxQuantity ?? undefined}
+                              onChange={(e) =>
+                                handleQuantityChange(
+                                  s.id,
+                                  Number(e.target.value)
+                                )
+                              }
+                            />
+                          </td>
+                          <td className="p-2">{qty * price} kr</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
 
-        <td className="p-2">
-          <input
-            type="number"
-            className="border rounded px-2 py-1 w-20"
-            value={qty}
-            min={0}
-            max={s.maxQuantity ?? undefined}
-            onChange={(e) =>
-              handleQuantityChange(s.id, Number(e.target.value))
-            }
-          />
-        </td>
-        <td className="p-2">{qty * price} kr</td>
-      </tr>
-    );
-  })}
-</tbody>
-              </table>
+              {/* Mobile cards */}
+              <div className="space-y-3 md:hidden">
+                {items.map((s) => {
+                  const price = prices[s.id] ?? s.price;
+                  const qty = quantities[s.id] || 0;
+                  return (
+                    <div
+                      key={s.id}
+                      className="border rounded-lg p-3 bg-white shadow-sm"
+                    >
+                      <div className="font-medium">{s.name}</div>
+                      <div className="text-sm text-gray-500">
+                        Pris:{" "}
+                        {isEditing ? (
+                          <input
+                            type="number"
+                            className="border rounded px-2 py-1 w-24"
+                            value={price}
+                            onChange={(e) =>
+                              handlePriceChange(s.id, Number(e.target.value))
+                            }
+                          />
+                        ) : (
+                          `${price} kr`
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2 mt-2">
+                        <span>Antal:</span>
+                        <input
+                          type="number"
+                          className="border rounded px-2 py-1 w-20"
+                          value={qty}
+                          min={0}
+                          max={s.maxQuantity ?? undefined}
+                          onChange={(e) =>
+                            handleQuantityChange(s.id, Number(e.target.value))
+                          }
+                        />
+                      </div>
+                      <div className="mt-2 font-semibold">
+                        Summa: {qty * price} kr
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </AccordionContent>
           </AccordionItem>
         ))}
       </Accordion>
 
       {isEditing && (
-        <div className="mt-4 flex gap-2">
+        <div className="mt-4 flex gap-2 flex-wrap">
           <input
             type="text"
             placeholder="Tjänstens namn"
