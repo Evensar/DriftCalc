@@ -1,5 +1,18 @@
-node_modules
-dist
-release
+# Byggmappar
+dist/
+release/
+
+# Node-moduler
+node_modules/
+
+# Loggar
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Systemfiler
 .DS_Store
-.env
+Thumbs.db
+
+# Tillfälliga filer
+*.local
